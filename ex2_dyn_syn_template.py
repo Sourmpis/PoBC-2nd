@@ -122,7 +122,7 @@ def perform_simulation(Nnrn,Nin,Rin,U,D,F,Tsim):
     noise,input_neurons = construct_input_population(Nin,Rin,0.0001)
     # connect input population to IAF population
     nest.CopyModel("tsodyks_synapse","syn",syn_param)
-    nest.Connect(input_neurons,iaf_neurons,{"rule": "fixed_indegree", "indegree": 50},syn_spec = "syn")
+    nest.Connect(input_neurons,iaf_neurons,{"rule": "fixed_indegree", "indegree": 100},syn_spec = "syn")
     # connect recorders
    
     nest.Connect(volts,[iaf_neurons[0]])    
@@ -213,7 +213,7 @@ def perform_simulation_d(Nnrn,Nin,U,D,F,Tsim):
     noise,input_neurons = construct_input_population(Nin,1.,0.0001)#psedo-construction
     # connect input population to IAF population
     nest.CopyModel("tsodyks_synapse","syn",syn_param)
-    nest.Connect(input_neurons,iaf_neurons,{"rule": "fixed_indegree", "indegree": 50},syn_spec = "syn")
+    nest.Connect(input_neurons,iaf_neurons,{"rule": "fixed_indegree", "indegree": 100},syn_spec = "syn")
     # connect recorders
    
     nest.Connect(volts,[iaf_neurons[0]])    
