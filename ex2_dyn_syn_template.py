@@ -54,7 +54,7 @@ def construct_input_population(Nin, Rin, Tstart):
     
     noise = nest.Create('poisson_generator',Nin,{ 'start':Tstart})
     nest.GetStatus(noise)
-    nest.SetStatus(noise, {'rate': 40.})
+    nest.SetStatus(noise, {'rate': Rin})
 
     input_neurons = nest.Create("iaf_psc_delta",Nin)
     # Choose threshold very close to resting potential so that each spike in a Poisson generator
