@@ -52,7 +52,10 @@ def construct_input_population(Nin, Rin, Tstart):
     # noise_neurons...the Poisson generators' GIDs
     # input_neurons...the input neurons' GIDs
     
-    noise = nest.Create('poisson_generator',Nin,{'rate':Rin, 'start':Tstart})
+    noise = nest.Create('poisson_generator',Nin,{ 'start':Tstart})
+    nest.GetStatus(noise)
+    nest.SetStatus(noise, {'rate': 40.})
+
     input_neurons = nest.Create("iaf_psc_delta",Nin)
     # Choose threshold very close to resting potential so that each spike in a Poisson generator
     # elicits one spike in the corresponding input neuron
@@ -151,7 +154,7 @@ def perform_simulation(Nnrn,Nin,Rin,U,D,F,Tsim):
     dt = 0.005
     binsize = 10
     rate = avg_firing_rate(ts/1000, dt, binsize, 2., 1000)   
-    
+    nest.PrintNetwork()
     figure(1)  
     t = linspace(0,Tsim/1000.,400)
     print(np.shape(t),np.shape(rate))    
@@ -220,37 +223,13 @@ def perform_simulation_d(Nnrn,Nin,U,D,F,Tsim):
     nest.Connect(iaf_neurons,spikedetector)
     
     # Perform the simulation for Tsim seconds.
-    nest.Prepare()    
-    nest.Run(Tsim/4)    
-    
-    
-    firing_rate_input = np.random.random(Nin)   
-    for i,fr in enumerate(firing_rate_input):
-        nest.SetStatus([noise[i]],{'rate':fr})
-    
-    nest.Prepare()
-    nest.Run(Tsim/4)
-    
-    firing_rate_input = np.random.random(Nin)   
-    for i,fr in enumerate(firing_rate_input):
-        nest.SetStatus([noise[i]],{'rate':fr})
-    nest.Prepare()
-    nest.Run(Tsim/4)
-   
-    firing_rate_input = np.random.random(Nin)   
-    for i,fr in enumerate(firing_rate_input):
-        nest.SetStatus([noise[i]],{'rate':fr})
-        
-    
-    nest.Prepare()
-    nest.Run(Tsim/4)
- 
-    firing_rate_input = np.random.random(Nin)   
-    for i,fr in enumerate(firing_rate_input):
-        nest.SetStatus([noise[i]],{'rate':fr})
-    
+    for i in range(4):
+        for n in noise:
+            nest.GetStatus(noise)
+            nest.SetStatus([n], {'rate': 40*np.random.random()})
+        nest.Simulate(Tsim / 4)
 
-    # extract spike times and convert to [s] 
+    # extract spike times and convert to [s]
    
    
     dSD = nest.GetStatus(spikedetector,keys="events")[0]
@@ -286,8 +265,8 @@ def perform_simulation_d(Nnrn,Nin,U,D,F,Tsim):
 # plotted. Use avg_firing_rate to calculate the population rate.
 #*******************************************************
 def main():
-#    perform_simulation(1000,500,20.,0.16,0.045,0.376,2000.)
-    perform_simulation_d(1000,500,0.25,0.706,0.021,4000.)    
+    #perform_simulation(1000,500,20.,0.25,0.706,0.021,2000.)
+    perform_simulation_d(1000,500,0.25,0.706,0.021,4000.)
 
 if __name__ == "__main__":
     main()
