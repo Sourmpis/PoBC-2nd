@@ -62,11 +62,11 @@ def construct_input_population(Nin, Rin, Tstart):
     Vresting = -60.0
     nrn_params =     {"V_m": Vresting,     # Membrane potential in mV
                       "E_L": Vresting,     # Resting membrane potential in mV
-                      "C_m": 1.0e4/40,           # Capacity of the membrane in pF
-                      "tau_m": 0.5,      # Membrane time constant in ms
-                      "V_th": -59.9999,     # Spike threshold in mV
+                      "C_m": 1.0e4/40,     # Capacity of the membrane in pF
+                      "tau_m": 0.5,        # Membrane time constant in ms
+                      "V_th": -59.9999,    # Spike threshold in mV
                       "V_reset": Vresting, # Reset potential of the membrane in mV
-		      "t_ref": .2   # refractory time in ms
+		              "t_ref": .2          # refractory time in ms
                       }
     nest.SetStatus(input_neurons,nrn_params)
     # Connect Poisson generators to input neurons "one-to-one"
@@ -191,11 +191,11 @@ def perform_simulation_d(Nnrn,Nin,U,D,F,Tsim):
     Vresting = -60.0
     nrn_params =     {"V_m": Vresting,     # Membrane potential in mV
                       "E_L": Vresting,     # Resting membrane potential in mV
-                      "C_m": 10000.,           # Capacity of the membrane in pF
-                      "tau_m": 20.,      # Membrane time constant in ms, R_m*tau_m
-                      "V_th": -40.,     # Spike threshold in mV
+                      "C_m": 10000.,       # Capacity of the membrane in pF
+                      "tau_m": 20.,        # Membrane time constant in ms, R_m*tau_m
+                      "V_th": -40.,        # Spike threshold in mV
                       "V_reset": Vresting, # Reset potential of the membrane in mV
-		      "t_ref": 2.   # refractory time in ms
+		              "t_ref": 2.          # refractory time in ms
                       }
     
     nest.SetStatus(iaf_neurons,nrn_params)
@@ -237,12 +237,7 @@ def perform_simulation_d(Nnrn,Nin,U,D,F,Tsim):
     evs = dSD["senders"]
     ts = dSD["times"]
     
-  
-    
-   
-    #return spikes and other stuff
-
-
+    # plot the spikes
     dt = 0.005
     binsize = 10
     rate = avg_firing_rate(ts/1000, dt, binsize, 2., Nnrn)
@@ -284,13 +279,13 @@ def perform_simulation_d1(Nnrn, Nin, U, D, F, Tsim):
     iaf_neurons = nest.Create("iaf_psc_exp", Nnrn)
 
     Vresting = -60.0
-    nrn_params = {"V_m": Vresting,  # Membrane potential in mV
-                  "E_L": Vresting,  # Resting membrane potential in mV
-                  "C_m": 10000.,  # Capacity of the membrane in pF
-                  "tau_m": 20.,  # Membrane time constant in ms, R_m*tau_m
-                  "V_th": -40.,  # Spike threshold in mV
+    nrn_params = {"V_m": Vresting,      # Membrane potential in mV
+                  "E_L": Vresting,      # Resting membrane potential in mV
+                  "C_m": 10000.,        # Capacity of the membrane in pF
+                  "tau_m": 20.,         # Membrane time constant in ms, R_m*tau_m
+                  "V_th": -40.,         # Spike threshold in mV
                   "V_reset": Vresting,  # Reset potential of the membrane in mV
-                  "t_ref": 2.  # refractory time in ms
+                  "t_ref": 2.           # refractory time in ms
                   }
     
     nest.SetStatus(iaf_neurons, nrn_params)
@@ -328,9 +323,6 @@ def perform_simulation_d1(Nnrn, Nin, U, D, F, Tsim):
     evs = dSD["senders"]
     ts = dSD["times"]
 
-    # return spikes and other stuff
-
-    
     #    plot(ts, evs, ".")
     print(ts)
     dt = 0.005
@@ -344,12 +336,11 @@ def perform_simulation_d1(Nnrn, Nin, U, D, F, Tsim):
 
 
 def main():
-    ## perform_simulation_d(Nnrn,Nin,U,D,F,Tsim)
+    # perform_simulation_d(Nnrn,Nin,U,D,F,Tsim)
 
     # perform_simulation(1000,500,20.,0.16,0.045,0.376,2000.)
 
-
-    ## perform_simulation_d(Nnrn, Nin, U, D, F, Tsim)
+    # perform_simulation_d(Nnrn, Nin, U, D, F, Tsim)
 
     perform_simulation_d(1000, 500 ,0.16, 0.045, 0.376, 2000.)
 
