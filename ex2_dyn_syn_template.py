@@ -149,7 +149,7 @@ def perform_simulation(Nnrn,Nin,Rin,U,D,F,Tsim):
       
     dt = 0.005
     binsize = 10 #  we put binsize equals to 10 because T_binsize = 10*5ms = 50ms
-    rate = avg_firing_rate(ts/1000, dt, binsize, 2., 1000)   
+    rate = avg_firing_rate(ts/1000, dt, binsize, 2., Nnrn)
 
 
     figure(1)
@@ -157,6 +157,11 @@ def perform_simulation(Nnrn,Nin,Rin,U,D,F,Tsim):
     t = linspace(0,Tsim/1000.,400)
 
     plot(t,rate)
+
+    u = U / (1 - (1 - U) * exp(-1 / (Rin * F)))
+    R = (1 - exp(-1 / (Rin * D))) / (1 - (1 - u) * exp(-1 / (Rin * D)))
+    A = u * R * W
+    print(A)
 
     
 def perform_simulation_d(Nnrn,Nin,U,D,F,Tsim):
@@ -248,7 +253,7 @@ def perform_simulation_d(Nnrn,Nin,U,D,F,Tsim):
 
     dt = 0.005
     binsize = 10
-    rate = avg_firing_rate(ts/1000, dt, binsize, 2., 1000)   
+    rate = avg_firing_rate(ts/1000, dt, binsize, 2., Nnrn)
     
     figure(1)  
     t = linspace(0,Tsim/1000.,400)
@@ -350,11 +355,13 @@ def perform_simulation_d1(Nnrn, Nin, U, D, F, Tsim):
 def main():
     ## perform_simulation_d(Nnrn,Nin,U,D,F,Tsim)
 
-    perform_simulation(1000,500,20,0.16,0.045,0.376,2000.)
+    # perform_simulation(1000,500,20.,0.16,0.045,0.376,2000.)
 
 
     ## perform_simulation_d(Nnrn, Nin, U, D, F, Tsim)
-    perform_simulation(1000,500,20,0.16,0.045,0.1,2000.)
+
+    perform_simulation_d(1000,500,0.16, 0.045,0.376,2000.)
+
 
 if __name__ == "__main__":
     main()
