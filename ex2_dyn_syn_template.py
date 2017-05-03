@@ -343,7 +343,8 @@ def main():
     # perform_simulation_d(Nnrn, Nin, U, D, F, Tsim)
 
     perform_simulation_d(1000, 500 ,0.16, 0.045, 0.376, 2000.)
-
+	
+    # the function d1 helps to make the plot for the final question 
 
 if __name__ == "__main__":
     main()
