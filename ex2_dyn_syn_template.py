@@ -119,9 +119,7 @@ def perform_simulation(Nnrn,Nin,Rin,U,D,F,Tsim):
     nest.SetStatus(iaf_neurons,nrn_params)
     
     spikedetector = nest.Create("spike_detector",params={"withgid": True, "withtime": True})    
-    volts = nest.Create("voltmeter")
-    nest.SetStatus(volts,{"label": "voltmeter","withtime": True,"withgid": True,
-                         "interval": 1.})
+    
 
     # use the construct_input_population function to construct the input population
     noise,input_neurons = construct_input_population(Nin,Rin,0.0001)
@@ -133,7 +131,7 @@ def perform_simulation(Nnrn,Nin,Rin,U,D,F,Tsim):
 
     # connect recorders
    
-    nest.Connect(volts,[iaf_neurons[0]])    
+ 
     nest.Connect(iaf_neurons,spikedetector)
     
     # Perform the simulation for Tsim seconds.
@@ -158,9 +156,9 @@ def perform_simulation(Nnrn,Nin,Rin,U,D,F,Tsim):
 
     plot(t,rate)
 
-    u = U / (1 - (1 - U) * exp(-1 / (Rin * F)))
-    R = (1 - exp(-1 / (Rin * D))) / (1 - (1 - u) * exp(-1 / (Rin * D)))
-    A = u * R * W
+    u = U / (1 - (1 - U) * exp(-1 / (Rin * F)))					# calculating the stable state synapse postsynaptic potential
+    R = (1 - exp(-1 / (Rin * D))) / (1 - (1 - u) * exp(-1 / (Rin * D)))		#
+    A = u * R * W								#
     print(A)
 
     
@@ -208,9 +206,7 @@ def perform_simulation_d(Nnrn,Nin,U,D,F,Tsim):
     
     spikedetector = nest.Create("spike_detector",params={"withgid": True, "withtime": True})
 
-    volts = nest.Create("voltmeter")
-    nest.SetStatus(volts,{"label": "voltmeter","withtime": True,"withgid": True,
-                         "interval": 1.})
+    
 
     # use the construct_input_population function to construct the input population
     noise,input_neurons = construct_input_population(Nin,1.,0.0001) #psedo-construction, because we dont care about the rate at this point
@@ -222,7 +218,7 @@ def perform_simulation_d(Nnrn,Nin,U,D,F,Tsim):
 
     # connect recorders
    
-    nest.Connect(volts,[iaf_neurons[0]])    
+    
     nest.Connect(iaf_neurons,spikedetector)
     
     # Perform the simulation for Tsim seconds.
@@ -304,9 +300,7 @@ def perform_simulation_d1(Nnrn, Nin, U, D, F, Tsim):
     nest.SetStatus(iaf_neurons, nrn_params)
 
     spikedetector = nest.Create("spike_detector", params={"withgid": True, "withtime": True})
-    volts = nest.Create("voltmeter")
-    nest.SetStatus(volts, {"label": "voltmeter", "withtime": True, "withgid": True,
-                           "interval": 1.})
+  
     # use the construct_input_population function to construct the input population
     noise, input_neurons = construct_input_population(Nin, 1., 0.0001)  # psedo-construction
     # connect input population to IAF population
@@ -314,7 +308,7 @@ def perform_simulation_d1(Nnrn, Nin, U, D, F, Tsim):
     nest.Connect(input_neurons, iaf_neurons, {"rule": "fixed_indegree", "indegree": 100}, syn_spec="syn")
     # connect recorders
 
-    nest.Connect(volts, [iaf_neurons[0]])
+    
     nest.Connect(iaf_neurons, spikedetector)
 
     # Perform the simulation for Tsim seconds.
@@ -339,7 +333,7 @@ def perform_simulation_d1(Nnrn, Nin, U, D, F, Tsim):
 
     # return spikes and other stuff
 
-    #    figure(1)
+    
     #    plot(ts, evs, ".")
     print(ts)
     dt = 0.005
