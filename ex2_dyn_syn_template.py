@@ -324,7 +324,7 @@ def perform_simulation_d1(Nnrn, Nin, U, D, F, Tsim):
     ts = dSD["times"]
 
     #    plot(ts, evs, ".")
-    print(ts)
+  
     dt = 0.005
     binsize = 10
     rate = avg_firing_rate(ts / 1000, dt, binsize, 2., 1000)
