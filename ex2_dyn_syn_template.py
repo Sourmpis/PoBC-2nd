@@ -22,13 +22,13 @@ import nest.voltage_trace
 	
 def avg_firing_rate(spikes, dt, binsize, Tsim, Nneurons):
     """
-      Calculates the average firing rate of a set of spike trains.
-      spikes...all spike times of the population in units of [s]
-      dt - A value of the firing rate is calculated at each time step dt [s]
-      binsize - the size of the bin in multiples of dt. Used to calculate the
-      firing rate at a particular moment.
-                The rate is <num of spikes in [t-binsize*dt,t]> / (binsize*dt*Nneurons).
-      Tsim - The length (in [s]) of the spike trains.
+    Calculates the average firing rate of a set of spike trains.
+    spikes...all spike times of the population in units of [s]
+    dt - A value of the firing rate is calculated at each time step dt [s]
+    binsize - the size of the bin in multiples of dt. Used to calculate the
+    firing rate at a particular moment.
+    The rate is <num of spikes in [t-binsize*dt,t]> / (binsize*dt*Nneurons).
+    Tsim - The length (in [s]) of the spike trains.
     """
     spi = array(floor(spikes/dt),dtype=int)
     Nbins = int(ceil(Tsim/dt))
@@ -104,16 +104,16 @@ def perform_simulation(Nnrn,Nin,Rin,U,D,F,Tsim):
 		 "x": 1.0}
     
     # construct IAF neuron population and recorders
-    iaf_neurons = nest.Create("iaf_psc_exp",Nnrn)    #we use expodential LIF neurons because it was suggested in the documentation
+    iaf_neurons = nest.Create("iaf_psc_exp",Nnrn)    # we use exponential LIF neurons because it was suggested in the documentation
     
     Vresting = -60.0
     nrn_params =     {"V_m": Vresting,     # Membrane potential in mV
                       "E_L": Vresting,     # Resting membrane potential in mV
-                      "C_m": 10000.,           # Capacity of the membrane in pF
-                      "tau_m": 20.,      # Membrane time constant in ms, R_m*tau_m
-                      "V_th": -40.,     # Spike threshold in mV
+                      "C_m": 10000.,       # Capacity of the membrane in pF
+                      "tau_m": 20.,        # Membrane time constant in ms, R_m*tau_m
+                      "V_th": -40.,        # Spike threshold in mV
                       "V_reset": Vresting, # Reset potential of the membrane in mV
-		      "t_ref": 2.   # refractory time in ms
+		              "t_ref": 2.          # refractory time in ms
                       }
     
     nest.SetStatus(iaf_neurons,nrn_params)
@@ -132,7 +132,6 @@ def perform_simulation(Nnrn,Nin,Rin,U,D,F,Tsim):
 
 
     # connect recorders
-   
     nest.Connect(volts,[iaf_neurons[0]])    
     nest.Connect(iaf_neurons,spikedetector)
     
@@ -140,13 +139,11 @@ def perform_simulation(Nnrn,Nin,Rin,U,D,F,Tsim):
     nest.Simulate(Tsim)
     
     # extract spike times and convert to [s] 
-   
     dSD = nest.GetStatus(spikedetector,keys="events")[0]
     evs = dSD["senders"]
     ts = dSD["times"]
     
     #return spikes and other stuff
-      
     dt = 0.005
     binsize = 10 #  we put binsize equals to 10 because T_binsize = 10*5ms = 50ms
     rate = avg_firing_rate(ts/1000, dt, binsize, 2., Nnrn)
@@ -282,8 +279,8 @@ def perform_simulation_d1(Nnrn, Nin, U, D, F, Tsim):
     syn_param = {"tau_psc": 3.0,
                  "tau_fac": F * 1000,  # facilitation time constant in ms
                  "tau_rec": D * 1000,  # recovery time constant in ms
-                 "U": U,  # utilization
-                 "delay": 0.1,  # transmission delay
+                 "U": U,               # utilization
+                 "delay": 0.1,         # transmission delay
                  "weight": W,
                  "u": 0.0,
                  "x": 1.0}
@@ -300,15 +297,16 @@ def perform_simulation_d1(Nnrn, Nin, U, D, F, Tsim):
                   "V_reset": Vresting,  # Reset potential of the membrane in mV
                   "t_ref": 2.  # refractory time in ms
                   }
-
+    
     nest.SetStatus(iaf_neurons, nrn_params)
 
     spikedetector = nest.Create("spike_detector", params={"withgid": True, "withtime": True})
     volts = nest.Create("voltmeter")
-    nest.SetStatus(volts, {"label": "voltmeter", "withtime": True, "withgid": True,
-                           "interval": 1.})
+    nest.SetStatus(volts, {"label": "voltmeter", "withtime": True, "withgid": True, "interval": 1.})
+
     # use the construct_input_population function to construct the input population
     noise, input_neurons = construct_input_population(Nin, 1., 0.0001)  # psedo-construction
+
     # connect input population to IAF population
     nest.CopyModel("tsodyks_synapse", "syn", syn_param)
     nest.Connect(input_neurons, iaf_neurons, {"rule": "fixed_indegree", "indegree": 100}, syn_spec="syn")
@@ -360,11 +358,10 @@ def main():
 
     ## perform_simulation_d(Nnrn, Nin, U, D, F, Tsim)
 
-    perform_simulation_d(1000,500,0.16, 0.045,0.376,2000.)
+    perform_simulation_d(1000, 500 ,0.16, 0.045, 0.376, 2000.)
 
 
 if __name__ == "__main__":
     main()
 
-show() # don't forget to call show() in the end 
-# such that figures are displayed on the screen
+show()
